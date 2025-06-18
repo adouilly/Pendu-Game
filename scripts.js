@@ -455,13 +455,17 @@ class MuskTheBeastGame {
         }
         this.createAttackImage(config.player.attack, 'player');
         
+        // Impact sur le monstre après 600ms (quand le projectile l'atteint)
         setTimeout(() => {
+            this.createImpactEffect('monster');
+            this.createScreenFlash('player-attack');
             if (this.monsterSprite) {
                 this.monsterSprite.classList.add('hit');
             }
             this.updateSpriteHealth();
-        }, 400);
+        }, 600);
 
+        // Fin des animations
         setTimeout(() => {
             if (this.playerSprite) {
                 this.playerSprite.classList.remove('attacking');
@@ -469,7 +473,7 @@ class MuskTheBeastGame {
             if (this.monsterSprite) {
                 this.monsterSprite.classList.remove('hit');
             }
-        }, 800);
+        }, 1200);
     }
 
     /**
@@ -492,13 +496,17 @@ class MuskTheBeastGame {
         
         this.createAttackImage(attackImage, 'monster');
         
+        // Impact sur le joueur après 600ms (quand le projectile l'atteint)
         setTimeout(() => {
+            this.createImpactEffect('player');
+            this.createScreenFlash('monster-attack');
             if (this.playerSprite) {
                 this.playerSprite.classList.add('hit');
             }
             this.updateSpriteHealth();
-        }, 400);
+        }, 600);
 
+        // Fin des animations
         setTimeout(() => {
             if (this.monsterSprite) {
                 this.monsterSprite.classList.remove('attacking');
@@ -506,11 +514,58 @@ class MuskTheBeastGame {
             if (this.playerSprite) {
                 this.playerSprite.classList.remove('hit');
             }
-        }, 800);
+        }, 1200);
     }
 
     /**
-     * Crée une image d'attaque temporaire
+     * Crée un effet d'impact visuel au moment où l'attaque touche le sprite
+     * @param {string} target - 'player' ou 'monster'
+     */
+    createImpactEffect(target) {
+        const targetSprite = target === 'player' ? this.playerSprite : this.monsterSprite;
+        if (!targetSprite) return;
+
+        const impactEffect = document.createElement('div');
+        impactEffect.className = `impact-effect impact-${target}`;
+        
+        // Positionner l'effet sur le sprite touché
+        const spriteRect = targetSprite.getBoundingClientRect();
+        const containerRect = targetSprite.closest('.sprite-container').getBoundingClientRect();
+        
+        impactEffect.style.position = 'absolute';
+        impactEffect.style.left = '50%';
+        impactEffect.style.top = '50%';
+        
+        targetSprite.closest('.sprite-container').appendChild(impactEffect);
+        
+        // Supprimer l'effet après l'animation
+        setTimeout(() => {
+            if (impactEffect.parentNode) {
+                impactEffect.parentNode.removeChild(impactEffect);
+            }
+        }, 400);
+    }
+
+    /**
+     * Crée un flash d'écran pour renforcer l'effet d'impact
+     * @param {string} attackType - 'player-attack' ou 'monster-attack'
+     */
+    createScreenFlash(attackType) {
+        const flash = document.createElement('div');
+        flash.className = `screen-flash flash-${attackType}`;
+        
+        document.body.appendChild(flash);
+        
+        // Supprimer le flash après l'animation
+        setTimeout(() => {
+            if (flash.parentNode) {
+                flash.parentNode.removeChild(flash);
+            }
+        }, 300);
+    }
+
+    /**
+     * Crée une image d'attaque temporaire avec animation de projectile améliorée
      * @param {string} imagePath - Chemin de l'image d'attaque
      * @param {string} attacker - 'player' ou 'monster'
      */
@@ -521,12 +576,14 @@ class MuskTheBeastGame {
         const attackImg = document.createElement('img');
         attackImg.className = `attack-effect ${attacker}-attack`;
         
-        // Position de l'attaque
-        if (attacker === 'player') {
-            attackImg.style.left = '40%';
-        } else {
-            attackImg.style.right = '40%';
-        }
+        // Styles de base pour l'effet d'attaque
+        attackImg.style.position = 'absolute';
+        attackImg.style.width = '80px';
+        attackImg.style.height = '80px';
+        attackImg.style.zIndex = '10';
+        attackImg.style.top = '50%';
+        attackImg.style.pointerEvents = 'none';
+        attackImg.style.filter = 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))';
         
         // Tester si l'image d'attaque existe
         attackImg.onload = () => {
@@ -535,24 +592,32 @@ class MuskTheBeastGame {
         
         attackImg.onerror = () => {
             console.error('Image d\'attaque non trouvée:', imagePath);
-            // Créer un effet visuel alternatif
+            // Créer un effet visuel alternatif amélioré
             attackImg.remove();
             const fallbackEffect = document.createElement('div');
             fallbackEffect.className = `attack-effect ${attacker}-attack`;
-            fallbackEffect.style.background = attacker === 'player' ? 
-                'radial-gradient(circle, yellow, orange)' : 
-                'radial-gradient(circle, red, darkred)';
+            fallbackEffect.style.position = 'absolute';
+            fallbackEffect.style.width = '60px';
+            fallbackEffect.style.height = '60px';
+            fallbackEffect.style.top = '50%';
+            fallbackEffect.style.zIndex = '10';
+            fallbackEffect.style.pointerEvents = 'none';
             fallbackEffect.style.borderRadius = '50%';
-            fallbackEffect.innerHTML = attacker === 'player' ? '💥' : '🔥';
             fallbackEffect.style.display = 'flex';
             fallbackEffect.style.alignItems = 'center';
             fallbackEffect.style.justifyContent = 'center';
             fallbackEffect.style.fontSize = '2em';
+            fallbackEffect.style.textShadow = '2px 2px 4px rgba(0,0,0,0.8)';
+            fallbackEffect.style.filter = 'drop-shadow(0 0 15px currentColor)';
             
             if (attacker === 'player') {
-                fallbackEffect.style.left = '40%';
+                fallbackEffect.style.background = 'radial-gradient(circle, #ffff00, #ff8800)';
+                fallbackEffect.innerHTML = '⚔️';
+                fallbackEffect.style.left = '20%';
             } else {
-                fallbackEffect.style.right = '40%';
+                fallbackEffect.style.background = 'radial-gradient(circle, #ff4444, #aa0000)';
+                fallbackEffect.innerHTML = '🔥';
+                fallbackEffect.style.right = '20%';
             }
             
             container.appendChild(fallbackEffect);
@@ -561,17 +626,20 @@ class MuskTheBeastGame {
                 if (fallbackEffect.parentNode) {
                     fallbackEffect.parentNode.removeChild(fallbackEffect);
                 }
-            }, 600);
+            }, 800);
+            
+            return;
         };
         
         attackImg.src = imagePath;
         container.appendChild(attackImg);
         
+        // Supprimer l'effet après l'animation
         setTimeout(() => {
             if (attackImg.parentNode) {
                 attackImg.parentNode.removeChild(attackImg);
             }
-        }, 600);
+        }, 800);
     }
 
     /**

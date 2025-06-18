@@ -4,15 +4,13 @@ Un jeu de pendu médiéval avec combats de sprites animés en PNG.
 
 ## 📋 Description
 
-**Musk The Beast** est une version modernisée du jeu du pendu classique. Au lieu de dessiner un pendu, le joueur incarne un combattant qui affronte des monstres dans des duels épiques avec des animations de sprites PNG. Chaque lettre correcte permet d'attaquer le monstre, tandis que chaque erreur fait subir des dégâts au joueur.
+**Hang The Beast** est une version modernisée du jeu du pendu classique. Au lieu de dessiner un pendu, le joueur incarne un combattant qui affronte des monstres dans des duels épiques avec des animations de sprites PNG. Chaque lettre correcte permet d'attaquer le monstre, tandis que chaque erreur fait subir des dégâts au joueur.
 
 ## 🎮 Fonctionnalités
 
-### ✅ Fonctionnalités Implémentées
-
 #### Interface et Navigation
-- **Écran d'accueil** (`index.html`) avec animation néon
-- **Écran de jeu** (`gameboard.html`) avec interface complète
+- **Écran d'accueil** avec animation néon
+- **Écran de jeu** avec interface complète
 - **Navigation fluide** entre les écrans
 - **Système de pseudonyme** avec sauvegarde localStorage
 
@@ -101,22 +99,6 @@ assets/sprites/
 4. **Ouvrir** `index.html` dans un navigateur
 5. **Entrer** un pseudonyme et commencer à jouer !
 
-### 🐛 Problèmes Résolus
-
-#### ✅ Animation des Sprites
-- **Solution** : Passage des MP4 aux PNG avec animation par frames
-- **Avantages** : Transparence native, contrôle total, pas de fond noir
-- **Fallback** : Sprites CSS/émojis si images manquantes
-
-#### ✅ Chargement des Mots
-- **Solution** : Fetch API pour charger dynamiquement depuis listemots.md
-- **Avantages** : Base de mots complète, facile à maintenir
-- **Fallback** : Mots de base si fetch échoue
-
-#### ✅ Gestion d'Erreurs
-- **Solution** : Vérifications systématiques et fallbacks visuels
-- **Résultat** : Jeu fonctionnel même avec assets manquants
-
 ### 📁 Structure du Projet
 
 ```
@@ -125,7 +107,7 @@ pendu/
 ├── gameboard.html          # Interface de jeu
 ├── styles.css              # Styles optimisés pour PNG
 ├── scripts.js              # Logique avec animations PNG
-├── readme.md              # Documentation mise à jour
+├── readme.md              # Documentation
 ├── projet.md              # Cahier des charges
 ├── listemots.md           # Base complète de mots
 └── assets/                # Assets PNG organisés
@@ -137,17 +119,6 @@ pendu/
     │   └── attack/
     └── backgrounds/       # Images de fond
 ```
-
-### 🔮 Améliorations Futures
-
-- [ ] **Sons et musique** d'ambiance médiévale
-- [ ] **Système de score** et classements
-- [ ] **Plus de niveaux** et monstres
-- [ ] **Mode multijoueur** local
-- [ ] **Sauvegarde** des statistiques
-- [ ] **Effets particules** pour les attaques
-- [ ] **Préchargement** optimisé des images PNG
-- [ ] **Animation plus fluides** avec plus de frames
 
 ### 👨‍💻 Notes Techniques
 
@@ -169,5 +140,4 @@ pendu/
 
 ---
 
-*Développé avec ❤️ pour l'apprentissage du développement web*
-"# Pendu-Game" 
+*Jeu développé pour l'apprentissage du développement web*

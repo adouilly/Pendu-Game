@@ -1,4 +1,4 @@
-# Musk The Beast 🐉⚔️
+# Hang The Beast 🐉⚔️
 
 Un jeu de pendu médiéval avec combats de sprites animés en PNG.
 

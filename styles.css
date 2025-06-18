@@ -79,6 +79,7 @@ button {
     justify-content: space-between;
     background-color: #000000;
     padding: 15px;
+    border-radius: 10px;
 }
 
 .class-name {
@@ -110,26 +111,19 @@ button {
 }
 
 .sprite-container {
-    width: 250px; /* Réduit de 450px à 250px */
-    height: 250px; /* Réduit de 450px à 250px */
+    width: 450px; /* Réduit de 450px à 250px */
+    height: 450px; /* Réduit de 450px à 250px */
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.sprite-container:first-child {
-    margin-left: 0; /* Joueur à gauche */
-}
-
-.sprite-container:last-child {
-    margin-right: 0; /* Monstre à droite */
+    animation: sprite-appear 1s ease-in-out;
 }
 
 .sprite {
-    width: 250px; /* Réduit de 400px à 250px */
-    height: 250px; /* Réduit de 400px à 250px */
-    background-size: cover; /* Changé de contain à cover */
+    width: 400px; /* Réduit de 400px à 250px */
+    height: 400px; /* Réduit de 400px à 250px */
+    background-size: contain; /* Changé de contain à cover */
     background-repeat: no-repeat;
     background-position: center center; /* Centrer l'image */
     transition: transform 0.3s ease;
@@ -211,69 +205,6 @@ button {
     70% { transform: scaleX(-1) translateX(2px); }
     80% { transform: scaleX(-1) translateX(-2px); }
     90% { transform: scaleX(-1) translateX(1px); }
-}
-
-/* Styles pour les images d'attaque */
-.attack-effect {
-    position: absolute;
-    width: 80px; /* Augmenté de 60px à 80px */
-    height: 80px; /* Augmenté de 60px à 80px */
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    opacity: 0;
-    animation: attack-flash 0.6s ease-out;
-    border-radius: 50%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.player-attack {
-    animation: attack-flash 0.6s ease-out, move-right 0.6s ease-out;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
-}
-
-.monster-attack {
-    animation: attack-flash 0.6s ease-out, move-left 0.6s ease-out;
-    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
-}
-
-@keyframes attack-flash {
-    0% { 
-        opacity: 0;
-        transform: translateY(-50%) scale(0.5) rotate(0deg);
-    }
-    50% { 
-        opacity: 1;
-        transform: translateY(-50%) scale(1.2) rotate(180deg);
-    }
-    100% { 
-        opacity: 0;
-        transform: translateY(-50%) scale(1) rotate(360deg);
-    }
-}
-
-@keyframes move-right {
-    0% { 
-        left: 30%; 
-        transform: translateY(-50%) scale(0.8);
-    }
-    100% { 
-        left: 70%; 
-        transform: translateY(-50%) scale(1.2);
-    }
-}
-
-@keyframes move-left {
-    0% { 
-        right: 30%; 
-        transform: translateY(-50%) scale(0.8);
-    }
-    100% { 
-        right: 70%; 
-        transform: translateY(-50%) scale(1.2);
-    }
 }
 
 /* Animation d'apparition des sprites */

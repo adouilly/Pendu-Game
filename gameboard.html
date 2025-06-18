@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hang The Beast</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="display: flex; flex-direction: column; height: 100vh;">
+    <div class="container-player-info">
+        <div class="class-name">Joueur : <span id="player-name">Nom du joueur</span></div>
+        <div class="lives">Vies : <span id="player-lives">8</span></div>
+        <p>Trouver le mot, terrassez le monstre.</p>
+        <div class="class-name">Monstre : <span id="monster-name">Nom du monstre</span></div>
+        <div class="lives">Vies : <span id="monster-lives">X</span></div>
+    </div>
+
+    <div class="container-animation-sprites">
+        <!-- Les sprites seront créés dynamiquement par JavaScript -->
+    </div>
+
+    <div class="container-word-finding">
+        <div class="word-display">
+            <span id="word-placeholder">_ _ _ _ _ _</span>
+        </div>
+        <div class="word-input">
+            <input 
+                type="text" 
+                id="letter-input" 
+                placeholder="Entrez une lettre" 
+                maxlength="1"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                data-form-type="other">
+            <button id="submit-letter">Valider</button>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

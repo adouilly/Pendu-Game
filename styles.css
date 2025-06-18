@@ -1,0 +1,550 @@
+/* Éliminer le scroll et optimiser l'espace */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 2em;
+    color: #ffffff;
+    margin-bottom: 20px;
+    animation: brokenNeon 4s infinite;
+}
+
+@keyframes brokenNeon {
+    0%, 20%, 40%, 60%, 80% {
+        opacity: 1;
+        text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+    }
+    10%, 30%, 50%, 70% {
+        opacity: 0.3;
+        text-shadow: 0 0 5px #ffffff;
+    }
+    90%, 100% {
+        opacity: 0.1;
+        text-shadow: none;
+    }
+}
+
+p {
+    font-size: 1.2em;
+    color: #ffffff;
+    margin: 10px 0;
+    animation: brokenNeon 10s infinite;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden; /* Empêche le scroll */
+}
+
+.container-intro {
+    text-align: center;
+    gap: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+button {
+    padding: 20px;
+    font-size: 1.2em;
+    background-color: #000000; 
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.image-background {
+    background-image: url('/assets/backgrounds/bck-test.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw; /* Assurer la largeur complète */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Fixer le background */
+    top: 0;
+    left: 0;
+}
+
+.container-player-info {
+    display: flex;
+    justify-content: space-between;
+    background-color: #000000;
+    padding: 15px;
+}
+
+.class-name {
+    font-size: 1.2em;
+    color: #ffffff;
+    margin: 10px;
+}
+
+.lives {
+    font-size: 1.2em;
+    color: #ff0000; /* Couleur rouge pour les vies */
+    margin: 10px;
+}
+
+.container-animation-sprites {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-image: 
+        linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 100%),
+        url('/assets/backgrounds/bck-test.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 400px;
+    flex: 1;
+    padding: 0 250px; /* Espacement de 250px des bords latéraux */
+}
+
+.sprite-container {
+    width: 250px; /* Réduit de 450px à 250px */
+    height: 250px; /* Réduit de 450px à 250px */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sprite-container:first-child {
+    margin-left: 0; /* Joueur à gauche */
+}
+
+.sprite-container:last-child {
+    margin-right: 0; /* Monstre à droite */
+}
+
+.sprite {
+    width: 250px; /* Réduit de 400px à 250px */
+    height: 250px; /* Réduit de 400px à 250px */
+    background-size: cover; /* Changé de contain à cover */
+    background-repeat: no-repeat;
+    background-position: center center; /* Centrer l'image */
+    transition: transform 0.3s ease;
+    position: relative;
+    border: none;
+    outline: none;
+}
+
+/* Styles pour les vidéos de sprites - Solution améliorée pour fond noir */
+.sprite video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: transparent;
+}
+
+/* Miroir horizontal pour faire face au joueur */
+.monster-sprite {
+    transform: scaleX(-1); 
+}
+
+.sprite.attacking {
+    animation: attack-move 0.8s ease-in-out;
+    transform: scale(1.2);
+}
+
+.monster-sprite.attacking {
+    animation: attack-move-mirrored 0.8s ease-in-out;
+    transform: scaleX(-1) scale(1.2); /* Conserver le miroir pendant l'attaque */
+}
+
+.sprite.hit {
+    animation: hit-shake 0.5s ease-in-out;
+    filter: brightness(0.5) contrast(1.5);
+}
+
+.monster-sprite.hit {
+    animation: hit-shake-mirrored 0.5s ease-in-out;
+    filter: brightness(0.5) contrast(1.5);
+    transform: scaleX(-1); /* Conserver le miroir pendant les dégâts */
+}
+
+/* Animations spécifiques pour les sprites retournés */
+@keyframes attack-move {
+    0% { transform: translateX(0) scale(1); }
+    30% { transform: translateX(20px) scale(1.1); }
+    60% { transform: translateX(10px) scale(1.2); }
+    100% { transform: translateX(0) scale(1); }
+}
+
+@keyframes attack-move-mirrored {
+    0% { transform: scaleX(-1) translateX(0) scale(1); }
+    30% { transform: scaleX(-1) translateX(-20px) scale(1.1); }
+    60% { transform: scaleX(-1) translateX(-10px) scale(1.2); }
+    100% { transform: scaleX(-1) translateX(0) scale(1); }
+}
+
+@keyframes hit-shake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(8px) rotate(2deg); }
+    20% { transform: translateX(-8px) rotate(-2deg); }
+    30% { transform: translateX(6px) rotate(1deg); }
+    40% { transform: translateX(-6px) rotate(-1deg); }
+    50% { transform: translateX(4px); }
+    60% { transform: translateX(-4px); }
+    70% { transform: translateX(2px); }
+    80% { transform: translateX(-2px); }
+    90% { transform: translateX(1px); }
+}
+
+@keyframes hit-shake-mirrored {
+    0%, 100% { transform: scaleX(-1) translateX(0); }
+    10% { transform: scaleX(-1) translateX(8px) rotate(2deg); }
+    20% { transform: scaleX(-1) translateX(-8px) rotate(-2deg); }
+    30% { transform: scaleX(-1) translateX(6px) rotate(1deg); }
+    40% { transform: scaleX(-1) translateX(-6px) rotate(-1deg); }
+    50% { transform: scaleX(-1) translateX(4px); }
+    60% { transform: scaleX(-1) translateX(-4px); }
+    70% { transform: scaleX(-1) translateX(2px); }
+    80% { transform: scaleX(-1) translateX(-2px); }
+    90% { transform: scaleX(-1) translateX(1px); }
+}
+
+/* Styles pour les images d'attaque */
+.attack-effect {
+    position: absolute;
+    width: 80px; /* Augmenté de 60px à 80px */
+    height: 80px; /* Augmenté de 60px à 80px */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    opacity: 0;
+    animation: attack-flash 0.6s ease-out;
+    border-radius: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.player-attack {
+    animation: attack-flash 0.6s ease-out, move-right 0.6s ease-out;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
+}
+
+.monster-attack {
+    animation: attack-flash 0.6s ease-out, move-left 0.6s ease-out;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
+}
+
+@keyframes attack-flash {
+    0% { 
+        opacity: 0;
+        transform: translateY(-50%) scale(0.5) rotate(0deg);
+    }
+    50% { 
+        opacity: 1;
+        transform: translateY(-50%) scale(1.2) rotate(180deg);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateY(-50%) scale(1) rotate(360deg);
+    }
+}
+
+@keyframes move-right {
+    0% { 
+        left: 30%; 
+        transform: translateY(-50%) scale(0.8);
+    }
+    100% { 
+        left: 70%; 
+        transform: translateY(-50%) scale(1.2);
+    }
+}
+
+@keyframes move-left {
+    0% { 
+        right: 30%; 
+        transform: translateY(-50%) scale(0.8);
+    }
+    100% { 
+        right: 70%; 
+        transform: translateY(-50%) scale(1.2);
+    }
+}
+
+/* Animation d'apparition des sprites */
+.sprite-container {
+    animation: sprite-appear 1s ease-in-out;
+}
+
+@keyframes sprite-appear {
+    0% { 
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.sprite-health {
+    font-size: 0.8em;
+    color: #fff;
+    margin-top: 5px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.container-word-finding {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #000000;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 20px;
+}
+
+#word-placeholder {
+    font-size: 3em;
+    font-weight: bold;
+    letter-spacing: 10px;
+    color: #ffffff;
+    text-align: center;
+    width: 100%;
+}
+
+.word-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 60px;
+}
+
+#submit-letter {
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 10px #00ff00, 0 0 20px rgba(0, 255, 0, 0.3);
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+}
+
+#submit-letter:hover {
+    background-color: rgba(0, 255, 0, 0.1);
+    box-shadow: 0 0 15px #00ff00, 0 0 30px rgba(0, 255, 0, 0.5);
+    transform: scale(1.05);
+}
+
+/* Animation pour les vies qui diminuent */
+.lives-decrease {
+    animation: damage-flash 0.5s ease-in-out;
+}
+
+@keyframes damage-flash {
+    0% { color: #ff0000; }
+    50% { color: #ffffff; background-color: rgba(255, 0, 0, 0.3); }
+    100% { color: #ff0000; }
+}
+
+/* Animations pour sprites PNG */
+.sprite.animated {
+    animation: sprite-idle 2s steps(4) infinite;
+}
+
+.sprite.animated.attacking {
+    animation: sprite-attack 0.8s steps(4) 1;
+}
+
+.sprite.animated.hit {
+    animation: sprite-hit 0.5s steps(3) 1;
+}
+
+/* Animation idle - cycle à travers 4 frames */
+@keyframes sprite-idle {
+    0% { background-position-x: 0; }
+    25% { background-position-x: -400px; }
+    50% { background-position-x: -800px; }
+    75% { background-position-x: -1200px; }
+    100% { background-position-x: 0; }
+}
+
+/* Animation d'attaque - cycle à travers 4 frames */
+@keyframes sprite-attack {
+    0% { background-position-x: 0; }
+    25% { background-position-x: -400px; }
+    50% { background-position-x: -800px; }
+    75% { background-position-x: -1200px; }
+    100% { background-position-x: 0; }
+}
+
+/* Animation de coup reçu - cycle à travers 3 frames */
+@keyframes sprite-hit {
+    0% { background-position-x: 0; }
+    33% { background-position-x: -400px; }
+    66% { background-position-x: -800px; }
+    100% { background-position-x: 0; }
+}
+
+/* Styles spécifiques pour les sprite sheets */
+.sprite {
+    background-size: 1600px 400px; /* 4 frames de 400px chacune */
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+/* CSS pour animations de sprites PNG */
+.sprite.sprite-animation {
+    animation: sprite-frames 1s steps(8) infinite;
+}
+
+@keyframes sprite-frames {
+    0% { background-position-x: 0; }
+    12.5% { background-position-x: -250px; }
+    25% { background-position-x: -500px; }
+    37.5% { background-position-x: -750px; }
+    50% { background-position-x: -1000px; }
+    62.5% { background-position-x: -1250px; }
+    75% { background-position-x: -1500px; }
+    87.5% { background-position-x: -1750px; }
+    100% { background-position-x: 0; }
+}
+
+/* Styles pour les sprites fallback (emojis) */
+.sprite span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 200px;
+    transition: transform 0.3s ease;
+}
+
+.sprite.attacking span {
+    transform: scale(1.2);
+    filter: brightness(1.3);
+}
+
+.sprite.hit span {
+    transform: scale(0.9);
+    filter: brightness(0.7);
+}
+
+.monster-sprite span {
+    transform: scaleX(-1); /* Miroir pour faire face au joueur */
+}
+
+.monster-sprite.attacking span {
+    transform: scaleX(-1) scale(1.2);
+}
+
+.monster-sprite.hit span {
+    transform: scaleX(-1) scale(0.9);
+}
+
+/* Styles pour les sprites animés (PNG) */
+.animated-sprite {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    image-rendering: pixelated; /* Pour les sprites pixel art */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Supprimer l'affichage du texte des vies sur les sprites */
+.sprite-container .sprite-health {
+    display: none;
+}
+
+/* Animation de pulsation pour les sprites de fallback */
+@keyframes sprite-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+/* Supprimer les fenêtres contextuelles de saisie */
+#letter-input {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    border: 2px solid #fff;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-align: center;
+    outline: none;
+}
+
+#letter-input:focus {
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Supprimer les suggestions de saisie automatique */
+#letter-input::-webkit-outer-spin-button,
+#letter-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Corriger la taille et position des sprites */
+.sprite-container {
+    width: 250px;
+    height: 250px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sprite {
+    width: 250px;
+    height: 250px;
+    background-size: cover; /* Changé de contain à cover */
+    background-repeat: no-repeat;
+    background-position: center center; /* Centrer l'image */
+    transition: transform 0.3s ease;
+    position: relative;
+    border: none;
+    outline: none;
+}
+
+/* Corrections spécifiques pour les sprites animés */
+.sprite {
+    display: block;
+    overflow: hidden; /* Éviter le débordement */
+}
+
+/* Assurer que les sprites de fallback sont bien centrés */
+.sprite div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 4em;
+    line-height: 1;
+}
+
+/* Corrections pour le monster sprite retourné */
+.monster-sprite {
+    transform: scaleX(-1);
+}
+
+.monster-sprite div {
+    transform: scaleX(-1); /* Contre-balancer le retournement pour le texte/emoji */
+}

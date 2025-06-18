@@ -108,7 +108,6 @@ pendu/
 ├── styles.css              # Styles optimisés pour PNG
 ├── scripts.js              # Logique avec animations PNG
 ├── readme.md              # Documentation
-├── projet.md              # Cahier des charges
 ├── listemots.md           # Base complète de mots
 └── assets/                # Assets PNG organisés
     ├── sprites/           # Animations par frames
@@ -140,4 +139,5 @@ pendu/
 
 ---
 
+*Jeu développé pour l'apprentissage du développement web*
 *Jeu développé pour l'apprentissage du développement web*
